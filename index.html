@@ -220,6 +220,127 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/23/gpu_deeplearing/" itemprop="url">
+                  Gpu平台下的深度学习系统搭建之旅
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-23T20:27:51+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/23/gpu_deeplearing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/23/gpu_deeplearing/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <ol>
+<li>事情得从2014年说起来，当时上的一门课叫人工神经网络，开始了解到深度学习，也就是多层的神经网络，正值实验室的师兄去到了百度深度学习研究院，以此开始了对深度学习的了解，当时多是概念和功能的了解。2015年参加了kaggle的一些比赛，越来越多的看到深度学习网络的强大功能，开始尝试着使用深度学习的框架和开源库。实验室的电脑是inter core 双核的，内存2g，跑个theano的深度学习库实在是费时，内存就索性升到了４g，用这个机器参加了两次阿里的数据挖掘比赛，感觉跑个gbrt的模型还是挺费时的，开始接触机器学习和数据挖掘，对如何处理完全没有经验，只是跟着coursera上的ng的的课程了解了一些模型和算法，当然成绩也不好。比赛以后陆陆续续的用r语言和kaggle上的数据训练过模型，换来换去发现还是基础知识差的太多，很多基本概念都不知道，于是读了《统计机器学习》，《机器学习》两本书，对基础知识有了一定的补充，模型，策略，算法这三大主线也逐渐清晰，越来越喜欢人工智能这个方向了，在许多的招聘网站上也看到火热的数据挖掘和人工智能的招聘帖子，更是催生了对机器学习的兴趣。</li>
+<li>2015年12月的时候谷歌开源了自家的深度学习框架TenseFlow,再一次引起了我对深度学习的注意，正好kaggle上有一个人脸特征提取的数据，于是打算用深度学习的库和框架来跑一下，然而这却成了我将近半个月的折腾之旅。</li>
+<li>一直在linux下工作，所以打算直接在我的fedora22上面安装theano库，lasagne库是在theano的基础上开发的更高级结构的深度学习库，就是安装这个的时候出现了一大堆的依赖问题，各种问题，折腾了两天左右才终于成功，当时欣喜若狂,跑一次数据训练就要６分钟，整整跑了一天还没跑完，果断放弃，想办法换gpu了。</li>
+<li>把自己打实况的gpu从寝室拿来实验室安装，gtx610,这个时候另外一个问题出现了，显卡驱动怎么装，找了一大堆教程，决定源码安装驱动，编译安装，重启，结果进不去X系统了，各种解决办法，还是没有成功安装，就在打算放弃的时候，想起了一个毕业的学长比较在行，打电话求助，决定换系统，然后换成了ubuntu系统。</li>
+<li>换系统以后没有用源码安装，因为ubuntu的ppa源丰富，直接找到了一个nvidia的ppa源，一次性安装成功，可是问题又来了，貌似不能直接调用gpu，需要装cuda,python解释成cuda可执行代码再调用cpu，安装cuda有两种方法，添加ppa源，直接apt-get和源码安装执行.sh的，两种都试过，都能成功，然后参照网上的各种配置方法，总算能用gpu计算了，抓紧跑kaggle代码，内存不足，这种失望的感觉真是没法形容。没办法，只能换gpu了。</li>
+<li>在gtx960和gtx770之间选了很久，gtx770流处理器核1560多个，256bit，４g的显存，就是老了一点，性价比比gtx960高一些，于是选择了gtx770。显卡到了以后，纳尼，这么长，２７cm,还要独立供电，好不容易在主板上硬凑合着插上，把供电线插好，更新驱动，跑起来，果然快了不少，glxgears跑到12000,考虑到cpu的性能，这个数可以接受了（同学的gtx960 i5级别的处理器跑到20000）但是突然闻到有烧糊的味道，马上拔下电源，检查显卡和电线电源，还好没烧坏。可能出现的问题，一个是电源标称500w，年代久远，性能未知，另一个可能是gpu的散热片碰到了走线，无奈，看来只能大换血了。</li>
+<li>基本是组装一台新的主机了，换电源，主板，cpu换成xeon 1231-v3,gpu，算下来4200块，心疼啊，但是想到能快速的跑模型，跑数据，以后也是它一直陪着我工作，还是给了我一些安慰的。</li>
+<li>啰嗦了很多，最后终于成功的跑起来了，还是很爽的，折腾了近半个月，有几点感悟。</li>
+</ol>
+<hr>
+<ul>
+<li>基础知识是理论的指导，再厉害的技术背后一定有支撑它的理论指导，在计算机方面，尤其是算法方面，数学理论是基石，所以一定要在实践动手和回归技术细节原理上一起进步，一边动手，一边看书是最快的方法，google无疑是践行理论指导实践最成功的公司，但愿自己以后有能力加入这样的团队。</li>
+<li>简单的问题实践起来往往没有想象中的那么简单，各种问题都会出现，就像这次，本来只是想跑一下深度学习的例程，竟然最后重装了一台电脑。不要小看中间的每一个细节，不管是硬件的，操作系统的还是软件库安装使用的都会使你的知识架构更加完善和丰富，当然每一次弄懂一个问题，都会给我很大的成就感。</li>
+<li>递归的学习方法。问题往往是递归的，打开这个问题会发现这个问题背后还有另一个问题，用google搜索会递归的打开一大堆网页再递归的关闭，这样的纵向的学习过程是很重要的。书上很少有纵向的介绍问题的关联的，这样的一个递归过程可以把以前的知识都串起来，对系统的理解更加的深刻。</li>
+<li>统筹规划的能力。许多的错误是没有在起初就制定好计划而是遇到问题才解决，比如配置显卡的时候就应该对硬件电源和主板大小有充足的了解以后再做计划。在软件安装的时候就应该把软件的依赖先检查一遍，如果事先把依赖都解决，cuda安装以后，也会省下不少的时间。所以还是要在弄清楚，搞明白整个流程以后再动手，不能急躁。</li>
+<li>对新鲜事物保持好奇。深度学习这个课题不是我们实验室的项目，正是因为好奇心和对新技术的渴望让我一直捣鼓它，这其中也收获和很多的快乐，当然也花费了很多时间和money，但是我觉得是值得的。</li>
+<li>shadowsocks,google,stackoverflow,wiki是个好东西。</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/23/linux_software2/" itemprop="url">
                   Linux下软件安装的几种方法对比(１)
                 </a>
@@ -438,8 +559,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/22/数据库连接操作的分类和操作/" itemprop="url">
-                  数据库连接操作的分类和操作
+                <a class="post-title-link" href="/2015/12/22/对齐方式/" itemprop="url">
+                  C语言中Struct的对齐方式
                 </a>
               
             
@@ -460,8 +581,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/22/数据库连接操作的分类和操作/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/数据库连接操作的分类和操作/" itemprop="commentsCount"></span>
+                <a href="/2015/12/22/对齐方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/对齐方式/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -483,186 +604,19 @@
         
           <span itemprop="articleBody">
             
-              <p>在查询多个表时，我们经常会用“连接查询”。连接是关系数据库模型的主要特点，也是它区别于其它类型数据库管理系统的一个标志。<br>连接类型：内连接、外连接、交叉连接。<br>内连接   内连接是只显示满足条件的!<br>使用比较运算符（包括=、&gt;、&lt;、&lt;&gt;、&gt;=、&lt;=、!&gt;和!&lt;）进行表间的比较操作，查询与连接条件相匹配的数据。根据比较运算符不同，内连接分为等值连接、自然连接和不等连接三种。</p>
-<p>1、等值连接</p>
-<pre><code> 概念：在连接条件中使用等于号（=）运算符，其查询结果中列出被连接表中的所有列，包括其中的重复列。
-
-<span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span> T_student s,T_class c <span class="keyword">where</span> s.classId = c.classId   
- 等于  
- <span class="keyword">select</span> * <span class="keyword">from</span> T_student s <span class="keyword">inner</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId = c.classId
-   结果是：</span>
-</code></pre><p>2、不等连接</p>
-<p>   概念：在连接条件中使用除等于号之外运算符（&gt;、&lt;、&lt;&gt;、&gt;=、&lt;=、!&gt;和!&lt;）</p>
-<pre><code><span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span> T_student s <span class="keyword">inner</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId &lt;&gt; c.classId
-   结果是：</span>
-</code></pre><p>3、自然连接</p>
-<pre><code> 概念：连接条件和等值连接相同，但是会删除连接表中的重复列。
-
- 查询语句同等值连接基本相同:
-
-
-
-select s.*,c<span class="class">.className</span> from T_student s inner join T_class c on s<span class="class">.classId</span> = c<span class="class">.classId</span>
-
-
-  与等值连接对比：结果是少一个一列classId： 
-</code></pre><p>外连接</p>
-<p>　　 </p>
-<pre><code>外连接分为左连接（<span class="built_in">LEFT</span> <span class="built_in">JOIN</span>）或左外连接（<span class="built_in">LEFT</span> OUTER <span class="built_in">JOIN</span>）、右连接（<span class="built_in">RIGHT</span> <span class="built_in">JOIN</span>）或右外连接（<span class="built_in">RIGHT</span> OUTER <span class="built_in">JOIN</span>）、全连接（FULL <span class="built_in">JOIN</span>）或全外连接（FULL OUTER <span class="built_in">JOIN</span>）。我们就简单的叫：左连接、右连接和全连接。
-</code></pre><p>1、左连接：</p>
-<pre><code>概念：返回左表中的所有行，如果左表中行在右表中没有匹配行，则结果中右表中的列返回空值。
-
-<span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span>  T_student s <span class="keyword">left</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId = c.classId</span>
-</code></pre><p>　　结果是：</p>
-<p>  总结：左连接显示左表全部行，和右表与左表相同行。</p>
-<p>2、右连接：</p>
-<p>   概念：恰与左连接相反，返回右表中的所有行，如果右表中行在左表中没有匹配行，则结果中左表中的列返回空值。</p>
-<p>   select * from  T_student s right join T_class c on s.classId = c.classId<br>   结果是：</p>
-<p> 　总结：右连接恰与左连接相反，显示右表全部行，和左表与右表相同行。</p>
-<p>3、全连接：</p>
-<p>　 概念：返回左表和右表中的所有行。当某行在另一表中没有匹配行，则另一表中的列返回空值</p>
-<p>   select * from  T_student s full join T_class c on s.classId = c.classId</p>
-<p>　  总结：返回左表和右表中的所有行。</p>
-<p>交叉连接（CROSS JOIN）：也称迪卡尔积</p>
-<pre><code>概念：不带<span class="keyword">WHERE</span>条件子句，它将会返回被连接的两个表的笛卡尔积，返回结果的行数等于两个表行数的乘积（例如：T_student和T_class，返回<span class="number">4</span>*<span class="number">4</span>=<span class="number">16</span>条记录），如果带<span class="keyword">where</span>，返回或显示的是匹配的行数。
-</code></pre><p>1、不带where：</p>
-<p>   select <em>from T_student cross join T_class<br>  ‘等于<br>   select </em>from T_student, T_class<br>结果是：</p>
-<pre><code>总结：相当与笛卡尔积，左表和右表组合。
-</code></pre><p>2、有where子句，往往会先生成两个表行数乘积的数据表，然后才根据where条件从中选择。</p>
-<p>select * from T_student s cross join T_class c where s.classId = c.classId<br>　  (注:cross join后加条件只能用where,不能用on)  </p>
-<pre><code>查询结果跟等值连接的查询结果是一样。
-</code></pre>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/22/Linux下固定mac和ip绑定方式/" itemprop="url">
-                  Linux下固定mac和ip绑定方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
-              2015-12-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/22/Linux下固定mac和ip绑定方式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/Linux下固定mac和ip绑定方式/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>在实验室帮师弟的Ubuntu14.04解决上网问题时发现了Ubuntu下固定mac和ip上网方式时的一些步骤，有些教程是不全面的甚至是错误的，所以在这里总结一下。<br>Linux有一些命令可以简单的设置固定ip和mac，但是系统重启以后就失效的方法，这里就不提了，介绍的是永久的修改方法。</p>
-<hr>
-<ul>
-<li><p>IP的固定修改/etc/network/interfaces<br>将DHCP屏蔽 </p>
-<blockquote>
-<p>iface eth0 inet dhcp</p>
-</blockquote>
-<p>添加静态ip有关的参数</p>
-<blockquote>
-<p>  iface eth0 inet static<br> address 192.168.0.10<br> netmask 255.255.255.0<br> gateway 192.168.0.1</p>
-</blockquote>
-</li>
+              <ul>
+<li>为什么要对齐  加快存储器对的读写操作，由两次读写变为一次，不需要拼接。</li>
+<li>什么叫做对齐  地址的对齐，2字节对齐就是地址是2的倍数，4字节对齐是地址是4的倍数。</li>
+<li>对齐策略 short类型地址必须是2的倍数，int int* float double 的地址必须是4的倍数。</li>
+<li>IA32指令要求，每个块的存储都是以16字节对齐方式来分配的，就是说地址的最低4位的为0。</li>
+<li>举例 <code>struct data{
+char a;
+int b;
+int64_t c;
+char d;}</code><br>那么 data d;<br>d的地址一定是4的倍数。<br>a的地址为0 占一个字节<br>b的地址为4 占4个字节（为了保证int的地址是4的倍数）<br>c的地址为8 占8个字节<br>d的地址为16 占1个字节</li>
+<li>在上面的例子中若data d[3] 那么data[1]的地址为多少呢？<br>为了保证地址的连续和数据的对齐，在data的结构体中一定要进行尾部填充，char d后面是填充3个字节还是7个呢？答案是7。因为data[1]的地址为data[0]+sizeof(data)，如果填充3个的话，data为20个字节大小，data[1]中的c地址为28，不再是8的倍数，字节不再对齐，所以一定是填充7。</li>
+<li>sizeof(data)为24。</li>
 </ul>
-<ul>
-<li>设置DNS修改/etc/resolv.conf<blockquote>
-<p>nameserver 202.96.134.133<br>nameserver 202.106.0.20</p>
-</blockquote>
-</li>
-</ul>
-<p>虽然设置了固定的DNS，但是每次重启DNS都会被重写，所以也要修改/etc/resolvconf/resolv.conf.d/base这个文件为</p>
-<blockquote>
-<p>nameserver 202.96.134.133<br> nameserver 202.106.0.20</p>
-</blockquote>
-<ul>
-<li>固定mac设定，在/etc/rc.d/rc.local中添加：</li>
-</ul>
-<blockquote>
-<p>ifconfig eth0 down<br>ifconfig eth0 hw ether 00:0C:18:EF:FF:ED<br>ifconfig eth0 up</p>
-</blockquote>
-<ul>
-<li><p>然后执行重启网卡设置：</p>
-<blockquote>
-<p>sudo ifdown eth0<br>sudo ifup eth0<br>ifconfig -a</p>
-</blockquote>
-</li>
-<li><p>修改默认网关，至关重要，最后发现的问题</p>
-</li>
-</ul>
-<blockquote>
-<p>route add default gw 192.168.2.1 </p>
-</blockquote>
-<p>但是每次重启系统，都要执行这条命令，最好把它写入/etc/rc.local </p>
-<blockquote>
-<p>route add gw 192.168.2.254 eth0</p>
-</blockquote>
 
             
           </span>
@@ -916,6 +870,141 @@ select s.*,c<span class="class">.className</span> from T_student s inner join T_
             
               
                 
+                <a class="post-title-link" href="/2015/12/22/数据库连接操作的分类和操作/" itemprop="url">
+                  数据库连接操作的分类和操作
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/数据库连接操作的分类和操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/数据库连接操作的分类和操作/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>在查询多个表时，我们经常会用“连接查询”。连接是关系数据库模型的主要特点，也是它区别于其它类型数据库管理系统的一个标志。<br>连接类型：内连接、外连接、交叉连接。<br>内连接   内连接是只显示满足条件的!<br>使用比较运算符（包括=、&gt;、&lt;、&lt;&gt;、&gt;=、&lt;=、!&gt;和!&lt;）进行表间的比较操作，查询与连接条件相匹配的数据。根据比较运算符不同，内连接分为等值连接、自然连接和不等连接三种。</p>
+<p>1、等值连接</p>
+<pre><code> 概念：在连接条件中使用等于号（=）运算符，其查询结果中列出被连接表中的所有列，包括其中的重复列。
+
+<span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span> T_student s,T_class c <span class="keyword">where</span> s.classId = c.classId   
+ 等于  
+ <span class="keyword">select</span> * <span class="keyword">from</span> T_student s <span class="keyword">inner</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId = c.classId
+   结果是：</span>
+</code></pre><p>2、不等连接</p>
+<p>   概念：在连接条件中使用除等于号之外运算符（&gt;、&lt;、&lt;&gt;、&gt;=、&lt;=、!&gt;和!&lt;）</p>
+<pre><code><span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span> T_student s <span class="keyword">inner</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId &lt;&gt; c.classId
+   结果是：</span>
+</code></pre><p>3、自然连接</p>
+<pre><code> 概念：连接条件和等值连接相同，但是会删除连接表中的重复列。
+
+ 查询语句同等值连接基本相同:
+
+
+
+select s.*,c<span class="class">.className</span> from T_student s inner join T_class c on s<span class="class">.classId</span> = c<span class="class">.classId</span>
+
+
+  与等值连接对比：结果是少一个一列classId： 
+</code></pre><p>外连接</p>
+<p>　　 </p>
+<pre><code>外连接分为左连接（<span class="built_in">LEFT</span> <span class="built_in">JOIN</span>）或左外连接（<span class="built_in">LEFT</span> OUTER <span class="built_in">JOIN</span>）、右连接（<span class="built_in">RIGHT</span> <span class="built_in">JOIN</span>）或右外连接（<span class="built_in">RIGHT</span> OUTER <span class="built_in">JOIN</span>）、全连接（FULL <span class="built_in">JOIN</span>）或全外连接（FULL OUTER <span class="built_in">JOIN</span>）。我们就简单的叫：左连接、右连接和全连接。
+</code></pre><p>1、左连接：</p>
+<pre><code>概念：返回左表中的所有行，如果左表中行在右表中没有匹配行，则结果中右表中的列返回空值。
+
+<span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span>  T_student s <span class="keyword">left</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId = c.classId</span>
+</code></pre><p>　　结果是：</p>
+<p>  总结：左连接显示左表全部行，和右表与左表相同行。</p>
+<p>2、右连接：</p>
+<p>   概念：恰与左连接相反，返回右表中的所有行，如果右表中行在左表中没有匹配行，则结果中左表中的列返回空值。</p>
+<p>   select * from  T_student s right join T_class c on s.classId = c.classId<br>   结果是：</p>
+<p> 　总结：右连接恰与左连接相反，显示右表全部行，和左表与右表相同行。</p>
+<p>3、全连接：</p>
+<p>　 概念：返回左表和右表中的所有行。当某行在另一表中没有匹配行，则另一表中的列返回空值</p>
+<p>   select * from  T_student s full join T_class c on s.classId = c.classId</p>
+<p>　  总结：返回左表和右表中的所有行。</p>
+<p>交叉连接（CROSS JOIN）：也称迪卡尔积</p>
+<pre><code>概念：不带<span class="keyword">WHERE</span>条件子句，它将会返回被连接的两个表的笛卡尔积，返回结果的行数等于两个表行数的乘积（例如：T_student和T_class，返回<span class="number">4</span>*<span class="number">4</span>=<span class="number">16</span>条记录），如果带<span class="keyword">where</span>，返回或显示的是匹配的行数。
+</code></pre><p>1、不带where：</p>
+<p>   select <em>from T_student cross join T_class<br>  ‘等于<br>   select </em>from T_student, T_class<br>结果是：</p>
+<pre><code>总结：相当与笛卡尔积，左表和右表组合。
+</code></pre><p>2、有where子句，往往会先生成两个表行数乘积的数据表，然后才根据where条件从中选择。</p>
+<p>select * from T_student s cross join T_class c where s.classId = c.classId<br>　  (注:cross join后加条件只能用where,不能用on)  </p>
+<pre><code>查询结果跟等值连接的查询结果是一样。
+</code></pre>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/22/桶排序/" itemprop="url">
                   排序算法总结
                 </a>
@@ -1058,8 +1147,8 @@ pBucket[nBucket].Add(<span class="keyword">A</span>[i])<span class="comment">;</
             
               
                 
-                <a class="post-title-link" href="/2015/12/22/对齐方式/" itemprop="url">
-                  C语言中Struct的对齐方式
+                <a class="post-title-link" href="/2015/12/22/Linux下固定mac和ip绑定方式/" itemprop="url">
+                  Linux下固定mac和ip绑定方式
                 </a>
               
             
@@ -1080,8 +1169,8 @@ pBucket[nBucket].Add(<span class="keyword">A</span>[i])<span class="comment">;</
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/22/对齐方式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/对齐方式/" itemprop="commentsCount"></span>
+                <a href="/2015/12/22/Linux下固定mac和ip绑定方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/Linux下固定mac和ip绑定方式/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1103,19 +1192,51 @@ pBucket[nBucket].Add(<span class="keyword">A</span>[i])<span class="comment">;</
         
           <span itemprop="articleBody">
             
-              <ul>
-<li>为什么要对齐  加快存储器对的读写操作，由两次读写变为一次，不需要拼接。</li>
-<li>什么叫做对齐  地址的对齐，2字节对齐就是地址是2的倍数，4字节对齐是地址是4的倍数。</li>
-<li>对齐策略 short类型地址必须是2的倍数，int int* float double 的地址必须是4的倍数。</li>
-<li>IA32指令要求，每个块的存储都是以16字节对齐方式来分配的，就是说地址的最低4位的为0。</li>
-<li>举例 <code>struct data{
-char a;
-int b;
-int64_t c;
-char d;}</code><br>那么 data d;<br>d的地址一定是4的倍数。<br>a的地址为0 占一个字节<br>b的地址为4 占4个字节（为了保证int的地址是4的倍数）<br>c的地址为8 占8个字节<br>d的地址为16 占1个字节</li>
-<li>在上面的例子中若data d[3] 那么data[1]的地址为多少呢？<br>为了保证地址的连续和数据的对齐，在data的结构体中一定要进行尾部填充，char d后面是填充3个字节还是7个呢？答案是7。因为data[1]的地址为data[0]+sizeof(data)，如果填充3个的话，data为20个字节大小，data[1]中的c地址为28，不再是8的倍数，字节不再对齐，所以一定是填充7。</li>
-<li>sizeof(data)为24。</li>
+              <p>在实验室帮师弟的Ubuntu14.04解决上网问题时发现了Ubuntu下固定mac和ip上网方式时的一些步骤，有些教程是不全面的甚至是错误的，所以在这里总结一下。<br>Linux有一些命令可以简单的设置固定ip和mac，但是系统重启以后就失效的方法，这里就不提了，介绍的是永久的修改方法。</p>
+<hr>
+<ul>
+<li><p>IP的固定修改/etc/network/interfaces<br>将DHCP屏蔽 </p>
+<blockquote>
+<p>iface eth0 inet dhcp</p>
+</blockquote>
+<p>添加静态ip有关的参数</p>
+<blockquote>
+<p>  iface eth0 inet static<br> address 192.168.0.10<br> netmask 255.255.255.0<br> gateway 192.168.0.1</p>
+</blockquote>
+</li>
 </ul>
+<ul>
+<li>设置DNS修改/etc/resolv.conf<blockquote>
+<p>nameserver 202.96.134.133<br>nameserver 202.106.0.20</p>
+</blockquote>
+</li>
+</ul>
+<p>虽然设置了固定的DNS，但是每次重启DNS都会被重写，所以也要修改/etc/resolvconf/resolv.conf.d/base这个文件为</p>
+<blockquote>
+<p>nameserver 202.96.134.133<br> nameserver 202.106.0.20</p>
+</blockquote>
+<ul>
+<li>固定mac设定，在/etc/rc.d/rc.local中添加：</li>
+</ul>
+<blockquote>
+<p>ifconfig eth0 down<br>ifconfig eth0 hw ether 00:0C:18:EF:FF:ED<br>ifconfig eth0 up</p>
+</blockquote>
+<ul>
+<li><p>然后执行重启网卡设置：</p>
+<blockquote>
+<p>sudo ifdown eth0<br>sudo ifup eth0<br>ifconfig -a</p>
+</blockquote>
+</li>
+<li><p>修改默认网关，至关重要，最后发现的问题</p>
+</li>
+</ul>
+<blockquote>
+<p>route add default gw 192.168.2.1 </p>
+</blockquote>
+<p>但是每次重启系统，都要执行这条命令，最好把它写入/etc/rc.local </p>
+<blockquote>
+<p>route add gw 192.168.2.254 eth0</p>
+</blockquote>
 
             
           </span>
@@ -1249,105 +1370,6 @@ char d;}</code><br>那么 data d;<br>d的地址一定是4的倍数。<br>a的地
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/10/日常工具使用/" itemprop="url">
-                  日常工具使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-10T21:45:20+08:00" content="2015-11-10">
-              2015-11-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/10/日常工具使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/10/日常工具使用/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p><strong>几次的密码丢失和系统崩溃，意识到密码管理工具和代码管理，日常文档管理的工具的重要性，在此记录下目前的常用工具。</strong></p>
-<ol>
-<li>网络云存储 这个是最重要的所有数据的备份都放在这里</li>
-<li>密码管理工具 keepassX 跨平台的密码管理工具，安全性有保证，时常把生成的密码数据库更新到百度云平台上。</li>
-<li>生活杂记 零碎的知识点和感悟记录在印象笔记上，微博也可以自动保存在这里。</li>
-<li>日志和博客 在GitHub上搭建的hexo静态博客，在本地的hexo文件夹要时常备份到百度云。</li>
-<li>代码管理工具和版本控制 Git和GitHub必须的。在Linux下Git的使用非常简单，命令行即可，图形化的Git工具gitg。Windows下使用IDE自带的Git工具。</li>
-<li>C/C++  平时主要用来刷算法题，所以不需要使用大型的IDE，在Linux下用GCC配合Geany，再配合Vim就很方便了。</li>
-<li>Python Pycharm</li>
-<li>Java IntelliJ和NetBeans，后者主要在GUI设计上很方便。</li>
-<li>翻墙 红杏被封以后用了一个月的时光隧道，现在用实验室师姐国外的VPS，用SS，以后自己搭一个VPS。</li>
-</ol>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1394,7 +1416,7 @@ char d;}</code><br>那么 data d;<br>d的地址一定是4的倍数。<br>a的地
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1408,7 +1430,7 @@ char d;}</code><br>那么 data d;<br>d的地址一定是4的倍数。<br>a的地
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
