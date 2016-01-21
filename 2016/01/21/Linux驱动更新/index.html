@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="数组，分割," />
+  <meta name="keywords" content="Linux，kernel，GPU," />
 
 
 
@@ -51,28 +51,16 @@
 
 
 
-<meta name="description" content="华为的面试题有这样一题
-
-题目：有两个数组a,b，大小都为n,数组元素的值任意，无序；要求：通过交换a,b中的元素，使数组a元素的和与数组b元素的和之间的差最小。
-
-《编程之美》也有这一题，总结一下可行的几种方法。这一题和大小为2N的数组中选取大小相同的两个子数组，使两个数组之和的差值最小是相同的思路。暴力破解需要穷举所有数字的N个组合，找出最接近sum()/2的。这种方法是N的阶乘的复杂度。最完">
+<meta name="description" content="多少次因为Ubuntu Kernels的更新造成系统不能进入，图形化界面登陆失败的问题，今天又一次遇到关于内核更新造成的显卡驱动不正常，一直在闪屏的问题。显卡是GTX770，系统是15.04,回想一下大概是几个小时以前自己更新了boot/下的kernel造成的，从4.2.0-19到 4.2.0-23，幸亏当时更新完以后没有删除旧的的kernel，在开机的grub里进入高级选项还能选择旧的kerne">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组分割问题">
-<meta property="og:url" content="http://yoursite.com/2015/12/22/数组分割/index.html">
+<meta property="og:title" content="Linux驱动更新">
+<meta property="og:url" content="http://yoursite.com/2016/01/21/Linux驱动更新/index.html">
 <meta property="og:site_name" content="罗那耳朵21">
-<meta property="og:description" content="华为的面试题有这样一题
-
-题目：有两个数组a,b，大小都为n,数组元素的值任意，无序；要求：通过交换a,b中的元素，使数组a元素的和与数组b元素的和之间的差最小。
-
-《编程之美》也有这一题，总结一下可行的几种方法。这一题和大小为2N的数组中选取大小相同的两个子数组，使两个数组之和的差值最小是相同的思路。暴力破解需要穷举所有数字的N个组合，找出最接近sum()/2的。这种方法是N的阶乘的复杂度。最完">
-<meta property="og:updated_time" content="2015-12-22T02:50:46.000Z">
+<meta property="og:description" content="多少次因为Ubuntu Kernels的更新造成系统不能进入，图形化界面登陆失败的问题，今天又一次遇到关于内核更新造成的显卡驱动不正常，一直在闪屏的问题。显卡是GTX770，系统是15.04,回想一下大概是几个小时以前自己更新了boot/下的kernel造成的，从4.2.0-19到 4.2.0-23，幸亏当时更新完以后没有删除旧的的kernel，在开机的grub里进入高级选项还能选择旧的kerne">
+<meta property="og:updated_time" content="2016-01-21T11:09:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组分割问题">
-<meta name="twitter:description" content="华为的面试题有这样一题
-
-题目：有两个数组a,b，大小都为n,数组元素的值任意，无序；要求：通过交换a,b中的元素，使数组a元素的和与数组b元素的和之间的差最小。
-
-《编程之美》也有这一题，总结一下可行的几种方法。这一题和大小为2N的数组中选取大小相同的两个子数组，使两个数组之和的差值最小是相同的思路。暴力破解需要穷举所有数字的N个组合，找出最接近sum()/2的。这种方法是N的阶乘的复杂度。最完">
+<meta name="twitter:title" content="Linux驱动更新">
+<meta name="twitter:description" content="多少次因为Ubuntu Kernels的更新造成系统不能进入，图形化界面登陆失败的问题，今天又一次遇到关于内核更新造成的显卡驱动不正常，一直在闪屏的问题。显卡是GTX770，系统是15.04,回想一下大概是几个小时以前自己更新了boot/下的kernel造成的，从4.2.0-19到 4.2.0-23，幸亏当时更新完以后没有删除旧的的kernel，在开机的grub里进入高级选项还能选择旧的kerne">
 
 
 
@@ -84,7 +72,7 @@
   };
 </script>
 
-  <title> 数组分割问题 | 罗那耳朵21 </title>
+  <title> Linux驱动更新 | 罗那耳朵21 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -224,7 +212,7 @@
             
             
               
-                数组分割问题
+                Linux驱动更新
               
             
           </h1>
@@ -233,19 +221,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
-              2015-12-22
+            <time itemprop="dateCreated" datetime="2016-01-21T19:01:54+08:00" content="2016-01-21">
+              2016-01-21
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/22/数组分割/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/数组分割/" itemprop="commentsCount"></span>
+                <a href="/2016/01/21/Linux驱动更新/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/21/Linux驱动更新/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -264,21 +267,16 @@
       
 
       
-        <span itemprop="articleBody"><p>华为的面试题有这样一题</p>
-<blockquote>
-<p>题目：有两个数组a,b，大小都为n,数组元素的值任意，无序；<br>要求：通过交换a,b中的元素，使数组a元素的和与数组b元素的和之间的差最小。</p>
-</blockquote>
-<p>《编程之美》也有这一题，总结一下可行的几种方法。这一题和大小为2N的数组中选取大小相同的两个子数组，使两个数组之和的差值最小是相同的思路。<br>暴力破解需要穷举所有数字的N个组合，找出最接近sum()/2的。这种方法是N的阶乘的复杂度。<br>最完美的答案来自StackOverFlow 思路为</p>
-<blockquote>
-<p>assume we swap a[i] and b[j], set Delt = sum(a) - sum(b), x = a[i]-b[j]<br>then Delt2 = sum(a)-a[i]+b[j] - (sum(b)-b[j]+a[i]) = Delt - 2<em>x,<br>then the change = |Delt| - |Delt2|, which is proportional to |Delt|^2 - |Delt2|^2 = 4</em>x*(Delt-x),</p>
-</blockquote>
-<p>Based on the thought above I got the following code:</p>
-<blockquote>
-<p>Delt = sum(a) - sum(b);<br>done = false;<br>while(!done)<br>{<br>    done = true;<br>    for i = [0, n)<br>    {<br>        for j = [0,n)<br>        {<br>            x = a[i]-b[j];<br>            change = x<em>(Delt-x);<br>            if(change &gt;0)<br>            {<br>                 swap(a[i], b[j]);<br>                 Delt = Delt - 2</em>x;<br>                 done = false;<br>            }<br>        }<br>    }<br>}</p>
-</blockquote>
-<p>Python代码如下：</p>
-<p>  def swap_for_min(a, b):<br>  delta = sum(a) - sum(b)<br>  done = False<br>  while done == False:<br>    done = True<br>    for i in range(len(a)):<br>      for j in range(len(b)):<br>        x = a[i]-b[j]<br>        change = x<em>(delta-x)<br>        if change &gt; 0:<br>          t = a[i]<br>          a[i] = b[j]<br>          b[j] = t<br>          delta = delta-2</em>x<br>          done = False<br>  return a,b</p>
-<p>还有就是整体排序以后 用贪心算法依次比较SUM(),依照大小不同，添加到两个数组中，这种方法不能证明是全局最优的。<br>网上最常见的方法是DP算法，很多，这里就不举例，贴上地址<a href="http://blog.csdn.net/Hackbuteer1/article/details/7638305" target="_blank" rel="external">DP算法</a>。</p>
+        <span itemprop="articleBody"><p>多少次因为Ubuntu Kernels的更新造成系统不能进入，图形化界面登陆失败的问题，今天又一次遇到关于内核更新造成的显卡驱动不正常，一直在闪屏的问题。显卡是GTX770，系统是15.04,回想一下大概是几个小时以前自己更新了boot/下的kernel造成的，从4.2.0-19到 4.2.0-23，幸亏当时更新完以后没有删除旧的的kernel，在开机的grub里进入高级选项还能选择旧的kernel，果不其然，从旧的kernel进入的话显卡驱动正常，能正常的进入系统，这就好办了，重新添加了显卡的PPA，update,然后安装最新的显卡驱动nvidia-361,重启电脑，怎么还是闪屏。哪里不对？<br>开机以后重新进入的是－23的内核，难道重新编译过的内核只有-19？<br>重启高级选项进入－19的内核，还是同样的问题，所以重新安装的驱动也不合适。<br>进入命令行模式，卸载掉所有的nvidia-<em>，终于正常了，显示没有问题了，开机也正常，但是这样没有nvidia的专用显卡驱动，我没法用gpu进行计算，没法双屏幕显示了啊。<br>卸载掉所有的非-19kernel到nvidia官网看了一下，这个驱动的版本并不是越高越好，也不是后向兼容的，gtx770显卡，合适的驱动是nvidia-352.63,所以最初安装的驱动是nvidia－361可能是不合适的，那么卸载掉所有的旧的nvidia-</em>，然后重新安装nvidia-352.63。</p>
+<hr>
+<p>有两点要注意，内核升级的时候，不要立马删掉旧的内核，最好保存最近能用的内核。几个常用的命令是<br>　<code>uname -r</code></p>
+<p>显示现在正在使用的内核，无法被删除。<br>　<code>sudo dpkg --list&#39;linux-image*&#39;</code></p>
+<p>显示目前的系统中有那些kernels。</p>
+<pre><code>sudo apt-<span class="built_in">get</span> remove linux-<span class="built_in">image</span>-VERSION
+</code></pre><p>删除不要的kernel。</p>
+<pre><code><span class="title">sudo</span> update-grub
+</code></pre><p>更新grub</p>
+<p>linux的显卡驱动在kernel中，所以每一次安装新的显卡驱动都会更新kernel。<br>ubuntu下的显卡驱动安装显然比redhat系列要简单很多，fedora下安装显卡驱动的时候要自己源码编译内核，所以当时把fedora22搞奔溃了，然后才换到了ubuntu,ubuntu的ppa比较多，就拿显卡驱动来说，nvidia的ppa维护的非常好，经常更新，安装十分方便，当然显卡驱动比较大，有60M，所以选择优秀的源也很重要了。</p>
 </span>
       
     </div>
@@ -287,7 +285,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数组，分割/" rel="tag">#数组，分割</a>
+            <a href="/tags/Linux，kernel，GPU/" rel="tag">#Linux，kernel，GPU</a>
           
         </div>
       
@@ -296,17 +294,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/22/数据库连接操作的分类和操作/" rel="next" title="数据库连接操作的分类和操作">
-                <i class="fa fa-chevron-left"></i> 数据库连接操作的分类和操作
+              <a href="/2015/12/23/gpu_deeplearing/" rel="next" title="Gpu平台下的深度学习系统搭建之旅">
+                <i class="fa fa-chevron-left"></i> Gpu平台下的深度学习系统搭建之旅
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/22/对齐方式/" rel="prev" title="C语言中Struct的对齐方式">
-                C语言中Struct的对齐方式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -333,8 +327,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/12/22/数组分割/"
-           data-title="数组分割问题" data-url="http://yoursite.com/2015/12/22/数组分割/">
+      <div class="ds-thread" data-thread-key="2016/01/21/Linux驱动更新/"
+           data-title="Linux驱动更新" data-url="http://yoursite.com/2016/01/21/Linux驱动更新/">
       </div>
     
   </div>
