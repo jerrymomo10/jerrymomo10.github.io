@@ -197,15 +197,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -229,7 +220,7 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/06/ Makefile的高级用法例子/" itemprop="url">
+                <a class="post-title-link" href="/2016/03/06/Makefile的高级用法例子/" itemprop="url">
                   Makefile的高级用法例子
                 </a>
               
@@ -240,8 +231,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2017-01-06T13:51:51+08:00" content="2017-01-06">
-              2017-01-06
+            <time itemprop="dateCreated" datetime="2016-03-06T13:51:51+08:00" content="2016-03-06">
+              2016-03-06
             </time>
           </span>
 
@@ -266,8 +257,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/01/06/ Makefile的高级用法例子/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/06/ Makefile的高级用法例子/" itemprop="commentsCount"></span>
+                <a href="/2016/03/06/Makefile的高级用法例子/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/06/Makefile的高级用法例子/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -322,6 +313,1066 @@ clean:
 <span class="variable">$(</span><span class="constant">CC)</span> <span class="variable">$(</span><span class="constant">CFLAGS)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span>
 </code></pre><p>这里的.cpp.o是一种后缀匹配，为了build结尾为.o的文件，必须先build相应的.cpp,这里的$&lt;指的是第一个依赖，默认为同文文件名的.cpp文件。</p>
 <h2 id="编译过程">编译过程</h2><p>当你输入make的时候，make工具试着生成默认的all，它没有存在，make工具就寻找它的依赖，依次为main.cpp hello.cpp factorial.cpp 和　hello。因为前三个都存在，make寻找它们的依赖，发现没有，就什么都不做了。如果这时候没有main.cpp，那么就会有  “no rule to make target ‘main.cpp’” 的提示。<br>对于hello,它依赖与main.o hello.o factorial.o，如果不存在，就根据模式匹配中的构建规则中生成它们，例如g++ -c -Wall -o main.o main.cpp。<br>当然当依赖文件的时间比目标本身的时间新的话，也会自动的重新rebuild。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/24/几种集成学习方法总结/" itemprop="url">
+                  几种集成学习方法总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-24T15:47:39+08:00" content="2016-01-24">
+              2016-01-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/24/几种集成学习方法总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/24/几种集成学习方法总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>ensemble方法经常使用，例如在第一季天池大数据比赛的时候用到的random forest和gbdt，都是常用的ensemble方法，这里对常见的bootstrap，bagging，boost等几个经常见到的概念总结一下，本文有很多内容参考了以下博客，在此谢过。<br><a href="http://blog.csdn.net/jlei_apple/article/details/8168856" target="_blank" rel="external">博客地址</a></p>
+<hr>
+<ul>
+<li>参数统计和非参数统计　如果在一个统计问题中，其总体分布不能用有限个实参数来刻画，只能对它作一些诸如分布连续、有密度、具有某阶矩等一般性的假定，则称之为非参数统计问题，可以用有限个参数进行统计说明的统计方法叫做参数统计问题。例如，检验“两个总体有相同分布”这个假设，若假定两总体的分布分别为正态分布N（μ1，σ2）和N（μ2，σ2），则问题只涉及三个实参数μ1，μ2，σ2，这是参数统计问题。若只假定两总体的分布为连续，此外一无所知，问题涉及的分布不能用有限个实参数刻画，则这是非参数统计问题。又如，估计总体分布的期望μ，若假定总体分布为正态 N（μ，σ2），则问题是参数性的；若只假定总体分布的期望值存在，则问题是非参数性的。在andrew ng的stanford的机器学习课程上见到的对数据的分布进行假设的问题都是参数估计问题。</li>
+<li>Bootstrap 又叫做自助法，是统计中非参数估计的一种常见方法，它是一种有放回的抽样方法，其核心思想和基本步骤如下：<br>　　（1） 采用重抽样技术从原始样本中抽取一定数量（自己给定）的样本，此过程允许重复抽样。 （n个样本中是否时采样n个不同方法不同）<br>　　（2） 根据抽出的样本计算给定的统计量T。<br>　　（3） 重复上述N次（一般大于1000），得到N个统计量T。<br>　　（4） 用N个统计量T来近似原问题的分布。<br>　　应该说Bootstrap是现代统计学较为流行的一种统计方法，在小样本时效果很好，本质上，bootstrap算法是最大似然估计的一种实现，它和最大似然估计相比的优点在于，它不需要用参数来刻画总体分布。</li>
+<li>BootStrap思想的两种应用之bagging ，bootstrap aggregating的缩写。让该学习算法训练多轮，每轮的训练集由从初始的训练集中随机取出的n个训练样本组成，某个初始训练样本在某轮训练集中可以出现多次或根本不出现，训练之后可得到一个预测函数序列h_1，⋯ ⋯h_n ，最终的预测函数H对分类问题采用投票方式，对回归问题采用简单平均方法对新示例进行判别。例如(训练R个分类器fi，分类器之间其他相同就是参数不同。其中fi是通过从训练集合中(N篇文档)随机取(取后放回)N次文档构成的训练集合训练得到的。–对于新文档d，用这R个分类器去分类，得到的最多的那个类别作为d的最终类别.)</li>
+<li>BootStrap思想的两种应用之boosting,其中主要的是AdaBoost（Adaptive Boosting）。初始化时对每一个训练例赋相等的权重1／n，然后用该学算法对训练集训练t轮，每次训练后，对训练失败的训练例赋以较大的权重，也就是让学习算法在后续的学习中集中对比较难的训练例进行学习，从而得到一个预测函数序列h_1,⋯, h_m , 其中h_i也有一定的权重，预测效果好的预测函数权重较大，反之较小。最终的预测函数H对分类问题采用有权重的投票方式，对回归问题采用加权平均的方法对新示例进行判别。<br>（类似Bagging方法，但是训练是串行进行的，第k个分类器训练时关注对前k-1分类器中错分的文档，即不是随机取，而是加大取这些文档的概率。)</li>
+<li>Bagging与Boosting的区别：二者的主要区别是取样方式不同。Bagging采用均匀取样，而Boosting根据错误率来取样，因此Boosting的分类精度要优于Bagging。Bagging的训练集的选择是随机的，各轮训练集之间相互独立，而Boostlng的各轮训练集的选择与前面各轮的学习结果有关；Bagging的各个预测函数没有权重，而Boosting是有权重的；Bagging的各个预测函数可以并行生成，而Boosting的各个预测函数只能顺序生成。对于象神经网络这样极为耗时的学习方法。Bagging可通过并行训练节省大量时间开销。<br>bagging和boosting都可以有效地提高分类的准确性。在大多数数据集中，boosting的准确性比bagging高。在有些数据集中，boosting会引起退化—- Overfit。</li>
+<li>gradient boosting（又叫Mart, Treenet)：Boosting是一种思想，Gradient Boosting是一种实现Boosting的方法，它主要的思想是，每一次建立模型是在之前建立模型损失函数的梯度下降方向。损失函数(loss function)描述的是模型的不靠谱程度，损失函数越大，则说明模型越容易出错。如果我们的模型能够让损失函数持续的下降，则说明我们的模型在不停的改进，而最好的方式就是让损失函数在其梯度（Gradient)的方向上下降。</li>
+<li>Rand forest： 随机森林，顾名思义，是用随机的方式建立一个森林，森林里面有很多的决策树组成，随机森林的每一棵决策树之间是没有关联的。在得到森林之后，当有一个新的输入样本进入的时候，就让森林中的每一棵决策树分别进行一下判断，看看这个样本应该属于哪一类（对于分类算法），然后看看哪一类被选择最多，就预测这个样本为那一类。 在建立每一棵决策树的过程中，有两点需要注意 - 采样与完全分裂。首先是两个随机采样的过程，random forest对输入的数据要进行行、列的采样。对于行采样，采用有放回的方式，也就是在采样得到的样本集合中，可能有重复的样本。假设输入样本为N个，那么采样的样本也为N个。这样使得在训练的时候，每一棵树的输入样本都不是全部的样本，使得相对不容易出现over-fitting。然后进行列采样，从M个feature中，选择m个(m &lt;&lt; M)。之后就是对采样之后的数据使用完全分裂的方式建立出决策树，这样决策树的某一个叶子节点要么是无法继续分裂的，要么里面的所有样本的都是指向的同一个分类。一般很多的决策树算法都一个重要的步骤 - 剪枝，但是这里不这样干，由于之前的两个随机采样的过程保证了随机性，所以就算不剪枝，也不会出现over-fitting。 按这种算法得到的随机森林中的每一棵都是很弱的，但是大家组合起来就很厉害了。可以这样比喻随机森林算法：每一棵决策树就是一个精通于某一个窄领域的专家（因为我们从M个feature中选择m让每一棵决策树进行学习），这样在随机森林中就有了很多个精通不同领域的专家，对一个新的问题（新的输入数据），可以用不同的角度去看待它，最终由各个专家，投票得到结果。在面试的时候被问到为什么要采取有放回的采样方式，当时没有回答上来，个人觉得主要原因是不破坏数据的分布情况，如果采用放回的形式，那么下一次采样出来的时候和整体的数据分布情况以及每一次采用出来的数据的分布情况都不相同，所以要采用有放回的采用形式。</li>
+<li>Random forest与bagging的区别：1）. Random forest是选与输入样本的数目相同多的次数（可能一个样本会被选取多次，同时也会造成一些样本不会被选取到），而bagging一般选取比输入样本的数目少的样本，也就是random forest的行采样）. bagging是用全部特征来得到分类器，而random forest是需要从全部特征中选取其中的一部分来训练得到分类器,也就是random forest列采样，一般Rand forest效果比bagging效果好.</li>
+<li>文本分类中使用的投票方法（Voting，也叫组合分类器）就是一种典型的集成机器学习方法。它通过组合多个弱分类器来得到一个强分类器，包括Bagging和Boosting两种方式，二者的主要区别是取样方式不同。Bagging采用均匀取样，而Boosting根据错误率来取样，因此Boosting的分类精度要优于Bagging。投票分类方法虽然分类精度较高，但训练时间较长。</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/21/Linux驱动更新/" itemprop="url">
+                  Linux驱动更新
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-21T19:01:54+08:00" content="2016-01-21">
+              2016-01-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/21/Linux驱动更新/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/21/Linux驱动更新/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>多少次因为Ubuntu Kernels的更新造成系统不能进入，图形化界面登陆失败的问题，今天又一次遇到关于内核更新造成的显卡驱动不正常，一直在闪屏的问题。显卡是GTX770，系统是15.04,回想一下大概是几个小时以前自己更新了boot/下的kernel造成的，从4.2.0-19到 4.2.0-23，幸亏当时更新完以后没有删除旧的的kernel，在开机的grub里进入高级选项还能选择旧的kernel，果不其然，从旧的kernel进入的话显卡驱动正常，能正常的进入系统，这就好办了，重新添加了显卡的PPA，update,然后安装最新的显卡驱动nvidia-361,重启电脑，怎么还是闪屏。哪里不对？<br>开机以后重新进入的是－23的内核，难道重新编译过的内核只有-19？<br>重启高级选项进入－19的内核，还是同样的问题，所以重新安装的驱动也不合适。<br>进入命令行模式，卸载掉所有的nvidia-<em>，终于正常了，显示没有问题了，开机也正常，但是这样没有nvidia的专用显卡驱动，我没法用gpu进行计算，没法双屏幕显示了啊。<br>卸载掉所有的非-19kernel到nvidia官网看了一下，这个驱动的版本并不是越高越好，也不是后向兼容的，gtx770显卡，合适的驱动是nvidia-352.63,所以最初安装的驱动是nvidia－361可能是不合适的，那么卸载掉所有的旧的nvidia-</em>，然后重新安装nvidia-352.63。</p>
+<hr>
+<p>有两点要注意，内核升级的时候，不要立马删掉旧的内核，最好保存最近能用的内核。几个常用的命令是<br>　<code>uname -r</code></p>
+<p>显示现在正在使用的内核，无法被删除。<br>　<code>sudo dpkg --list&#39;linux-image*&#39;</code></p>
+<p>显示目前的系统中有那些kernels。</p>
+<pre><code>sudo apt-<span class="built_in">get</span> remove linux-<span class="built_in">image</span>-VERSION
+</code></pre><p>删除不要的kernel。</p>
+<pre><code><span class="title">sudo</span> update-grub
+</code></pre><p>更新grub</p>
+<p>linux的显卡驱动在kernel中，所以每一次安装新的显卡驱动都会更新kernel。<br>ubuntu下的显卡驱动安装显然比redhat系列要简单很多，fedora下安装显卡驱动的时候要自己源码编译内核，所以当时把fedora22搞奔溃了，然后才换到了ubuntu,ubuntu的ppa比较多，就拿显卡驱动来说，nvidia的ppa维护的非常好，经常更新，安装十分方便，当然显卡驱动比较大，有60M，所以选择优秀的源也很重要了。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/23/gpu_deeplearing/" itemprop="url">
+                  Gpu平台下的深度学习系统搭建之旅
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-23T20:27:51+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/23/gpu_deeplearing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/23/gpu_deeplearing/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <ol>
+<li>事情得从2014年说起来，当时上的一门课叫人工神经网络，开始了解到深度学习，也就是多层的神经网络，正值实验室的师兄去到了百度深度学习研究院，以此开始了对深度学习的了解，当时多是概念和功能的了解。2015年参加了kaggle的一些比赛，越来越多的看到深度学习网络的强大功能，开始尝试着使用深度学习的框架和开源库。实验室的电脑是inter core 双核的，内存2g，跑个theano的深度学习库实在是费时，内存就索性升到了４g，用这个机器参加了两次阿里的数据挖掘比赛，感觉跑个gbrt的模型还是挺费时的，开始接触机器学习和数据挖掘，对如何处理完全没有经验，只是跟着coursera上的ng的的课程了解了一些模型和算法，当然成绩也不好。比赛以后陆陆续续的用r语言和kaggle上的数据训练过模型，换来换去发现还是基础知识差的太多，很多基本概念都不知道，于是读了《统计机器学习》，《机器学习》两本书，对基础知识有了一定的补充，模型，策略，算法这三大主线也逐渐清晰，越来越喜欢人工智能这个方向了，在许多的招聘网站上也看到火热的数据挖掘和人工智能的招聘帖子，更是催生了对机器学习的兴趣。</li>
+<li>2015年12月的时候谷歌开源了自家的深度学习框架TenseFlow,再一次引起了我对深度学习的注意，正好kaggle上有一个人脸特征提取的数据，于是打算用深度学习的库和框架来跑一下，然而这却成了我将近半个月的折腾之旅。</li>
+<li>一直在linux下工作，所以打算直接在我的fedora22上面安装theano库，lasagne库是在theano的基础上开发的更高级结构的深度学习库，就是安装这个的时候出现了一大堆的依赖问题，各种问题，折腾了两天左右才终于成功，当时欣喜若狂,跑一次数据训练就要６分钟，整整跑了一天还没跑完，果断放弃，想办法换gpu了。</li>
+<li>把自己打实况的gpu从寝室拿来实验室安装，gtx610,这个时候另外一个问题出现了，显卡驱动怎么装，找了一大堆教程，决定源码安装驱动，编译安装，重启，结果进不去X系统了，各种解决办法，还是没有成功安装，就在打算放弃的时候，想起了一个毕业的学长比较在行，打电话求助，决定换系统，然后换成了ubuntu系统。</li>
+<li>换系统以后没有用源码安装，因为ubuntu的ppa源丰富，直接找到了一个nvidia的ppa源，一次性安装成功，可是问题又来了，貌似不能直接调用gpu，需要装cuda,python解释成cuda可执行代码再调用cpu，安装cuda有两种方法，添加ppa源，直接apt-get和源码安装执行.sh的，两种都试过，都能成功，然后参照网上的各种配置方法，总算能用gpu计算了，抓紧跑kaggle代码，内存不足，这种失望的感觉真是没法形容。没办法，只能换gpu了。</li>
+<li>在gtx960和gtx770之间选了很久，gtx770流处理器核1560多个，256bit，４g的显存，就是老了一点，性价比比gtx960高一些，于是选择了gtx770。显卡到了以后，纳尼，这么长，２７cm,还要独立供电，好不容易在主板上硬凑合着插上，把供电线插好，更新驱动，跑起来，果然快了不少，glxgears跑到12000,考虑到cpu的性能，这个数可以接受了（同学的gtx960 i5级别的处理器跑到20000）但是突然闻到有烧糊的味道，马上拔下电源，检查显卡和电线电源，还好没烧坏。可能出现的问题，一个是电源标称500w，年代久远，性能未知，另一个可能是gpu的散热片碰到了走线，无奈，看来只能大换血了。</li>
+<li>基本是组装一台新的主机了，换电源，主板，cpu换成xeon 1231-v3,gpu，算下来4200块，心疼啊，但是想到能快速的跑模型，跑数据，以后也是它一直陪着我工作，还是给了我一些安慰的。</li>
+<li>啰嗦了很多，最后终于成功的跑起来了，还是很爽的，折腾了近半个月，有几点感悟。</li>
+</ol>
+<hr>
+<ul>
+<li>基础知识是理论的指导，再厉害的技术背后一定有支撑它的理论指导，在计算机方面，尤其是算法方面，数学理论是基石，所以一定要在实践动手和回归技术细节原理上一起进步，一边动手，一边看书是最快的方法，google无疑是践行理论指导实践最成功的公司，但愿自己以后有能力加入这样的团队。</li>
+<li>简单的问题实践起来往往没有想象中的那么简单，各种问题都会出现，就像这次，本来只是想跑一下深度学习的例程，竟然最后重装了一台电脑。不要小看中间的每一个细节，不管是硬件的，操作系统的还是软件库安装使用的都会使你的知识架构更加完善和丰富，当然每一次弄懂一个问题，都会给我很大的成就感。</li>
+<li>递归的学习方法。问题往往是递归的，打开这个问题会发现这个问题背后还有另一个问题，用google搜索会递归的打开一大堆网页再递归的关闭，这样的纵向的学习过程是很重要的。书上很少有纵向的介绍问题的关联的，这样的一个递归过程可以把以前的知识都串起来，对系统的理解更加的深刻。</li>
+<li>统筹规划的能力。许多的错误是没有在起初就制定好计划而是遇到问题才解决，比如配置显卡的时候就应该对硬件电源和主板大小有充足的了解以后再做计划。在软件安装的时候就应该把软件的依赖先检查一遍，如果事先把依赖都解决，cuda安装以后，也会省下不少的时间。所以还是要在弄清楚，搞明白整个流程以后再动手，不能急躁。</li>
+<li>对新鲜事物保持好奇。深度学习这个课题不是我们实验室的项目，正是因为好奇心和对新技术的渴望让我一直捣鼓它，这其中也收获和很多的快乐，当然也花费了很多时间和money，但是我觉得是值得的。</li>
+<li>shadowsocks,google,stackoverflow,wiki是个好东西。</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/23/linux_software2/" itemprop="url">
+                  Linux下软件安装的几种方法对比(１)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-23T12:14:40+08:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/23/linux_software2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/23/linux_software2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>从大二开始折腾Linux到现在已经有５年，陆陆续续的用过ubuntu，fedora，deepin的各种版本，从最初的种种不习惯到现在逐渐离不开Linux系统，离不开开源，这其中对linux系统的工作方式有了一步一步的深入的了解.这里把用过的几种linux下软件的安装方法总结一下，因为自己当初就一直云里雾里，希望记录一下自己逐渐的成长过程，也为对linux感兴趣的同学们提供一些帮助，这也是一种开源精神吧．</p>
+<ul>
+<li>源码安装　这里首先要提的就是最通用的源码安装，源码安装需要程序的源代码包，对所有的平台都是相同的，只是各种平台需要自己单独针对自己的系统进行重新的编译和安装，这就涉及到包依赖的问题，因为源代码会涉及到其他的工具例如最常用的编译工具Ｇcc和Ｇ＋＋，所以比较麻烦的事情就是在安装之前解决所有的依赖问题，python的pip工具可以帮助你将指定文件里的依赖包全部安装，但是通常需要手动安装所有依赖包，而且依赖性的严格要求可能对指定的包的版本也会有要求，这就需要在安装之前下工夫把依赖问题一一解决．源码安装能获得最新的软件版本，及时修复bug，用户可以重新配置，自由修改源代码，加入新的功能，前提是要在软件的license下,安装包里会提供License．源码安装的发布格式一般是．tar.gz和.tar.bz2，使用tar解压工具解压例如对于.tar.gz为tar -vxzf．为了验证是否与官网的代码相同，经常需要做md5或者sha校验，有很多的校验工具，这里不再介绍．源码文件夹里一般会包括configure文件，这个文件是为了针对当前的系统，软件环境，配置好安装参数，有时候我们需要为这个文件添加可执行权限，命令为chomd +x configure.一个常用的命令是指定<br>安装目录，例如./configure—prefix=／usr/local/node．这样就会把安装的所有文件都保存在指定的目录，这样的安装方式与windows下的文件安装地址相同，如果不指定安装位置的话，这个程序的lib就会安装到系统指定的lib库，bin文件也在系统指定的bin库，相当与所有lib库文件放在指定的地方，所有的bin放在指定的地方（是否是这样不确定）．指定安装位置的另一个好处是在没有提供uninstall的情况下，可以手动find -name “node”的找到安装位置，直接删除即可．指定安装位置以后，执行make命令，将源代码文件变为二进制的可执行程序，make是自动化编译工具，会根据文件夹里的makefile进行编译，当然还有其他的自动编译工具，如cmake和qmake．这个过程一般比较长，只要不报错误，等待就可以了．编译完成以后执行make install 将编译好的程序文件复制到系统中，整个程序的安装过程结束． 有时候需要将在系统的默认路径中添加程序的bin位置，通过在．bashrc或者／etc/environment的path中添加路径，或者通过创建软链接到默认的路径中即可．卸载程序的话，执行make uninstall．有的程序不包含卸载的uninstall．这个时候如果在安装的时候没有指定安装位置就比较麻烦．如果指定了安装位置，找到安装位置直接删除就可以．当然在安装的时候make ＞＆log_make＆和make install &gt;&amp;log_install&amp; 用于保存安装信息日志，这样需要卸载的时候方便查看哪些文件安装在了系统目录中，例如/usr/lib下的库文件。</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/22/Linx_software/" itemprop="url">
+                  Linux下软件安装的几种方法对比(2)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T22:04:37+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/Linx_software/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/Linx_software/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>上一篇讲了不少关于linux下源码安装的东西，但是源码安装比较费时，需要手动维护许多依赖，对于大型的软件，依赖较多，不适合用源码安装．这一节讲一下ubuntu和fedora下的包管理工具．</p>
+<ul>
+<li>ubuntu的dpkg dpkg是debian系列的包管理工具，dpkg -i 可以安装．deb的安装包，它是debian系的低级的管理工具,维护系统下的依赖关系，可以删除指定的安装包，但是它不负责维护软件仓库，所以必须手动下载．deb软件包，所以在软件不能满足依赖时它不能自动完成依赖安装．</li>
+<li>ubuntu的apt-get apt-get 是我最常用的包管理工具，因为它真的太好用了，它是Ｄebian系的高级包管理工具，底层仍然是dpkg，它与dpkg的最大区别就是它维护着一个软件仓库，这个仓库一般是网络上的软件源，这个软件源里有绝大部分的软件，而且它会帮助你自动完成依赖的安装工作．apt-get像一个智能的dpkg一样，有一系列的工具，包括软件源的添加，更新，软件的安装，移除，升级，自动移除等．</li>
+<li>ubuntu下的aptitude和synaptic　aptitude是比apt-get 更高级的包管理工具，它包括一个ui界面和更智能的包自动选择和诊断功能，在terminal输入aptitude可以看到它的界面．synaptic是一个有自己ui的方便的包管理工具，可以更直观的看到软件源里的软件和直接在图形化系统中的操作的支持</li>
+<li>ubuntu自带的软件更新工具．</li>
+<li>在redhat系中的低级包管理工具是rpm 作用同dpkg相同．yum包管理工具同apt-get相同，在fedora22以后yum工具逐渐被dnf取代．</li>
+<li>其他发行版有自己特定的包管理工具，不过功能都是大同小异了．</li>
+<li>说到包管理工具，不只是linux系统有自己的包管理工具，python也有自己的软件包管理工具pipy的pip，nodejs的npm等等，包管理工具确实可以方便我们对软件包的安装卸载和维护，就连C++都要推出包管理工具了，但是万变不利其宗，无非是自动化安装和编译的过程．</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/22/数据库连接操作的分类和操作/" itemprop="url">
+                  数据库连接操作的分类和操作
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/数据库连接操作的分类和操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/数据库连接操作的分类和操作/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>在查询多个表时，我们经常会用“连接查询”。连接是关系数据库模型的主要特点，也是它区别于其它类型数据库管理系统的一个标志。<br>连接类型：内连接、外连接、交叉连接。<br>内连接   内连接是只显示满足条件的!<br>使用比较运算符（包括=、&gt;、&lt;、&lt;&gt;、&gt;=、&lt;=、!&gt;和!&lt;）进行表间的比较操作，查询与连接条件相匹配的数据。根据比较运算符不同，内连接分为等值连接、自然连接和不等连接三种。</p>
+<p>1、等值连接</p>
+<pre><code> 概念：在连接条件中使用等于号（=）运算符，其查询结果中列出被连接表中的所有列，包括其中的重复列。
+
+<span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span> T_student s,T_class c <span class="keyword">where</span> s.classId = c.classId   
+ 等于  
+ <span class="keyword">select</span> * <span class="keyword">from</span> T_student s <span class="keyword">inner</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId = c.classId
+   结果是：</span>
+</code></pre><p>2、不等连接</p>
+<p>   概念：在连接条件中使用除等于号之外运算符（&gt;、&lt;、&lt;&gt;、&gt;=、&lt;=、!&gt;和!&lt;）</p>
+<pre><code><span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span> T_student s <span class="keyword">inner</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId &lt;&gt; c.classId
+   结果是：</span>
+</code></pre><p>3、自然连接</p>
+<pre><code> 概念：连接条件和等值连接相同，但是会删除连接表中的重复列。
+
+ 查询语句同等值连接基本相同:
+
+
+
+select s.*,c<span class="class">.className</span> from T_student s inner join T_class c on s<span class="class">.classId</span> = c<span class="class">.classId</span>
+
+
+  与等值连接对比：结果是少一个一列classId： 
+</code></pre><p>外连接</p>
+<p>　　 </p>
+<pre><code>外连接分为左连接（<span class="built_in">LEFT</span> <span class="built_in">JOIN</span>）或左外连接（<span class="built_in">LEFT</span> OUTER <span class="built_in">JOIN</span>）、右连接（<span class="built_in">RIGHT</span> <span class="built_in">JOIN</span>）或右外连接（<span class="built_in">RIGHT</span> OUTER <span class="built_in">JOIN</span>）、全连接（FULL <span class="built_in">JOIN</span>）或全外连接（FULL OUTER <span class="built_in">JOIN</span>）。我们就简单的叫：左连接、右连接和全连接。
+</code></pre><p>1、左连接：</p>
+<pre><code>概念：返回左表中的所有行，如果左表中行在右表中没有匹配行，则结果中右表中的列返回空值。
+
+<span class="operator"><span class="keyword">select</span> * <span class="keyword">from</span>  T_student s <span class="keyword">left</span> <span class="keyword">join</span> T_class c <span class="keyword">on</span> s.classId = c.classId</span>
+</code></pre><p>　　结果是：</p>
+<p>  总结：左连接显示左表全部行，和右表与左表相同行。</p>
+<p>2、右连接：</p>
+<p>   概念：恰与左连接相反，返回右表中的所有行，如果右表中行在左表中没有匹配行，则结果中左表中的列返回空值。</p>
+<p>   select * from  T_student s right join T_class c on s.classId = c.classId<br>   结果是：</p>
+<p> 　总结：右连接恰与左连接相反，显示右表全部行，和左表与右表相同行。</p>
+<p>3、全连接：</p>
+<p>　 概念：返回左表和右表中的所有行。当某行在另一表中没有匹配行，则另一表中的列返回空值</p>
+<p>   select * from  T_student s full join T_class c on s.classId = c.classId</p>
+<p>　  总结：返回左表和右表中的所有行。</p>
+<p>交叉连接（CROSS JOIN）：也称迪卡尔积</p>
+<pre><code>概念：不带<span class="keyword">WHERE</span>条件子句，它将会返回被连接的两个表的笛卡尔积，返回结果的行数等于两个表行数的乘积（例如：T_student和T_class，返回<span class="number">4</span>*<span class="number">4</span>=<span class="number">16</span>条记录），如果带<span class="keyword">where</span>，返回或显示的是匹配的行数。
+</code></pre><p>1、不带where：</p>
+<p>   select <em>from T_student cross join T_class<br>  ‘等于<br>   select </em>from T_student, T_class<br>结果是：</p>
+<pre><code>总结：相当与笛卡尔积，左表和右表组合。
+</code></pre><p>2、有where子句，往往会先生成两个表行数乘积的数据表，然后才根据where条件从中选择。</p>
+<p>select * from T_student s cross join T_class c where s.classId = c.classId<br>　  (注:cross join后加条件只能用where,不能用on)  </p>
+<pre><code>查询结果跟等值连接的查询结果是一样。
+</code></pre>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/22/对齐方式/" itemprop="url">
+                  C语言中Struct的对齐方式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/对齐方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/对齐方式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <ul>
+<li>为什么要对齐  加快存储器对的读写操作，由两次读写变为一次，不需要拼接。</li>
+<li>什么叫做对齐  地址的对齐，2字节对齐就是地址是2的倍数，4字节对齐是地址是4的倍数。</li>
+<li>对齐策略 short类型地址必须是2的倍数，int int* float double 的地址必须是4的倍数。</li>
+<li>IA32指令要求，每个块的存储都是以16字节对齐方式来分配的，就是说地址的最低4位的为0。</li>
+<li>举例 <code>struct data{
+char a;
+int b;
+int64_t c;
+char d;}</code><br>那么 data d;<br>d的地址一定是4的倍数。<br>a的地址为0 占一个字节<br>b的地址为4 占4个字节（为了保证int的地址是4的倍数）<br>c的地址为8 占8个字节<br>d的地址为16 占1个字节</li>
+<li>在上面的例子中若data d[3] 那么data[1]的地址为多少呢？<br>为了保证地址的连续和数据的对齐，在data的结构体中一定要进行尾部填充，char d后面是填充3个字节还是7个呢？答案是7。因为data[1]的地址为data[0]+sizeof(data)，如果填充3个的话，data为20个字节大小，data[1]中的c地址为28，不再是8的倍数，字节不再对齐，所以一定是填充7。</li>
+<li>sizeof(data)为24。</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/22/桶排序/" itemprop="url">
+                  排序算法总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/桶排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/桶排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>2016年的大众点评研发工程师有这样一道算法题</p>
+<blockquote>
+<p>N个未排序的整数，在线性时间内，求这N个整数在数轴上相邻两个数之间的最大差值(请写出关键算法)</p>
+</blockquote>
+<p>要求在线性时间内O(N)内解决问题，首先想到的是排序，然后求相邻元素之间的距离，返回最大值即可。这里我把常用的排序算法的复杂度总结一下。</p>
+<ul>
+<li>稳定性：稳定排序算法会让原本有相同键的记录维持相对次序。也就是如果一个排序是稳定的，当有两个相同键值的R和S，且在原本的串中R出现在S之前，在排序以后，R仍旧会在S之前。常见的稳定排序有冒泡，插入，桶，归并排序。不稳定排序有选择，希尔，堆，快速排序。</li>
+<li>平均时间复杂度为：<br>冒泡排序O(n^2)<br>选择排序O(n^2)<br>插入排序O(n^2)<br>希尔排序O(n^1.25)<br>堆排序O(n log n)<br>归并排序O(n log n)<br>快速排序O(n log n)<br>基数排序O(n)<br>详细内容可以在维基中看到<a href="https://zh.wikipedia.org/zh/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95" target="_blank" rel="external">排序算法</a></li>
+<li>可见采用基本的排序算法除了基数排序以为都不能符合要求。有两种方法很巧妙的解决了这个问题，都是用空间换时间的方法。</li>
+<li>字典排序的方法 先存入哈希表中，然后按关键字大小逐个取出，寻找最大间隔，时间复杂度是O(n)，Python语言：</li>
+</ul>
+<p><code>from collections import defaultdict
+def counting_sort(A):
+  B = []
+  C = defaultdict(list)
+  for x in A:
+    C[x].append(x)
+  for k in range(min(C),max(C)+1):
+    print C[k]
+    B.extend(C[k])
+  return B
+def counting_max_len(A):
+  max = abs(A[1]-A[0])
+  for i in range(1,len(A)-1):
+    if abs(A[i+1]-A[i])&gt;max:
+      max = abs(A[i+1]-A[i])
+  return max</code> </p>
+<ul>
+<li>改进的桶排序算法(此方法参考的牛客网邹博博士的讲义)：对于给定的N个数有最大值Max和最小值Min,如果均匀分布的话，则间隔为(MAX-MIN)/N-1,不均匀的话一定比这个间隔大，我们按这个间隔的大小为桶大小进行划分，不必比较桶内的元素，因为桶内元素间隔必定比这个间隔小，只需比较后一个桶的最小值与前一个桶的最大值即可。这个方法的空间复杂度为O(n)。C++语言：`typedef struct tagBucket<br>{<br> bool bValid;<br> int nMin;<br> int nMax;<br> tagBucket():bValid(false){}<br> void Add(int n)<br> {<pre><code><span class="keyword">if</span>(!bValid)
+{
+    <span class="variable">nMin =</span> <span class="variable">nMax =</span> n;
+    <span class="variable">bValid =</span> <span class="constant">true</span>;
+}
+<span class="keyword">else</span>
+{
+    <span class="keyword">if</span>(nMax&lt;n)<span class="variable">nMax =</span> n;
+    <span class="keyword">else</span> <span class="keyword">if</span>(nMin&gt;n)<span class="variable">nMin =</span> n;
+}
+</code></pre> }<br>}SBucket;<br>int GetMaxGap(const int<em> A,int size)<br>{<br> SBucket</em> pBucket = new SBucket[size];<br> int nMax = A[0];<br> int nMin = A[0];<br> int i = 0;<br> for(i=0;i&lt;size;i++)<br> {<pre><code><span class="keyword">if</span>(nMax&lt;<span class="literal">A</span>[i])nMax = <span class="literal">A</span>[i]<span class="comment">;</span>
+<span class="keyword">else</span> <span class="keyword">if</span>(nMin&gt;<span class="literal">A</span>[i])nMin = <span class="literal">A</span>[i]<span class="comment">;</span>
+</code></pre> }<br> int delta = nMax-nMin;<br> int nBucket;<br> for(i=0;i&lt;size;i++)<br> {<pre><code>nBucket = (<span class="keyword">A</span>[i]-nMin)*size/delta<span class="comment">;</span>
+if(nBucket&gt;=size)
+{
+    nBucket = size-1<span class="comment">;</span>
+}
+pBucket[nBucket].Add(<span class="keyword">A</span>[i])<span class="comment">;</span>
+</code></pre> }<br> i = 0;<br> int nGap = delta/size;<br> int gap;<br> for(int j=1;j&lt;size;j++)<br> {<pre><code><span class="keyword">if</span>(pBucket[j].bValid)
+{
+    <span class="variable">gap =</span> pBucket[j].nMin-pBucket[i].nMax;
+    <span class="keyword">if</span>(nGap&lt;gap)<span class="variable">nGap =</span> gap;
+    <span class="variable">i =</span> j;
+}
+</code></pre> }<br> return nGap;<br>}`</li>
+<li>Python内置的字典类型，在许多算法中能起到巧妙的作用。Python代码简洁，类型丰富，是作为程序原型和验证语言的很好的选择之一。</li>
+</ul>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/22/Linux下固定mac和ip绑定方式/" itemprop="url">
+                  Linux下固定mac和ip绑定方式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/Linux下固定mac和ip绑定方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/Linux下固定mac和ip绑定方式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>在实验室帮师弟的Ubuntu14.04解决上网问题时发现了Ubuntu下固定mac和ip上网方式时的一些步骤，有些教程是不全面的甚至是错误的，所以在这里总结一下。<br>Linux有一些命令可以简单的设置固定ip和mac，但是系统重启以后就失效的方法，这里就不提了，介绍的是永久的修改方法。</p>
+<hr>
+<ul>
+<li><p>IP的固定修改/etc/network/interfaces<br>将DHCP屏蔽 </p>
+<blockquote>
+<p>iface eth0 inet dhcp</p>
+</blockquote>
+<p>添加静态ip有关的参数</p>
+<blockquote>
+<p>  iface eth0 inet static<br> address 192.168.0.10<br> netmask 255.255.255.0<br> gateway 192.168.0.1</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>设置DNS修改/etc/resolv.conf<blockquote>
+<p>nameserver 202.96.134.133<br>nameserver 202.106.0.20</p>
+</blockquote>
+</li>
+</ul>
+<p>虽然设置了固定的DNS，但是每次重启DNS都会被重写，所以也要修改/etc/resolvconf/resolv.conf.d/base这个文件为</p>
+<blockquote>
+<p>nameserver 202.96.134.133<br> nameserver 202.106.0.20</p>
+</blockquote>
+<ul>
+<li>固定mac设定，在/etc/rc.d/rc.local中添加：</li>
+</ul>
+<blockquote>
+<p>ifconfig eth0 down<br>ifconfig eth0 hw ether 00:0C:18:EF:FF:ED<br>ifconfig eth0 up</p>
+</blockquote>
+<ul>
+<li><p>然后执行重启网卡设置：</p>
+<blockquote>
+<p>sudo ifdown eth0<br>sudo ifup eth0<br>ifconfig -a</p>
+</blockquote>
+</li>
+<li><p>修改默认网关，至关重要，最后发现的问题</p>
+</li>
+</ul>
+<blockquote>
+<p>route add default gw 192.168.2.1 </p>
+</blockquote>
+<p>但是每次重启系统，都要执行这条命令，最好把它写入/etc/rc.local </p>
+<blockquote>
+<p>route add gw 192.168.2.254 eth0</p>
+</blockquote>
 
             
           </span>

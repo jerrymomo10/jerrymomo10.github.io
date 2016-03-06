@@ -220,148 +220,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/22/桶排序/" itemprop="url">
-                  排序算法总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
-              2015-12-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/22/桶排序/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/桶排序/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>2016年的大众点评研发工程师有这样一道算法题</p>
-<blockquote>
-<p>N个未排序的整数，在线性时间内，求这N个整数在数轴上相邻两个数之间的最大差值(请写出关键算法)</p>
-</blockquote>
-<p>要求在线性时间内O(N)内解决问题，首先想到的是排序，然后求相邻元素之间的距离，返回最大值即可。这里我把常用的排序算法的复杂度总结一下。</p>
-<ul>
-<li>稳定性：稳定排序算法会让原本有相同键的记录维持相对次序。也就是如果一个排序是稳定的，当有两个相同键值的R和S，且在原本的串中R出现在S之前，在排序以后，R仍旧会在S之前。常见的稳定排序有冒泡，插入，桶，归并排序。不稳定排序有选择，希尔，堆，快速排序。</li>
-<li>平均时间复杂度为：<br>冒泡排序O(n^2)<br>选择排序O(n^2)<br>插入排序O(n^2)<br>希尔排序O(n^1.25)<br>堆排序O(n log n)<br>归并排序O(n log n)<br>快速排序O(n log n)<br>基数排序O(n)<br>详细内容可以在维基中看到<a href="https://zh.wikipedia.org/zh/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95" target="_blank" rel="external">排序算法</a></li>
-<li>可见采用基本的排序算法除了基数排序以为都不能符合要求。有两种方法很巧妙的解决了这个问题，都是用空间换时间的方法。</li>
-<li>字典排序的方法 先存入哈希表中，然后按关键字大小逐个取出，寻找最大间隔，时间复杂度是O(n)，Python语言：</li>
-</ul>
-<p><code>from collections import defaultdict
-def counting_sort(A):
-  B = []
-  C = defaultdict(list)
-  for x in A:
-    C[x].append(x)
-  for k in range(min(C),max(C)+1):
-    print C[k]
-    B.extend(C[k])
-  return B
-def counting_max_len(A):
-  max = abs(A[1]-A[0])
-  for i in range(1,len(A)-1):
-    if abs(A[i+1]-A[i])&gt;max:
-      max = abs(A[i+1]-A[i])
-  return max</code> </p>
-<ul>
-<li>改进的桶排序算法(此方法参考的牛客网邹博博士的讲义)：对于给定的N个数有最大值Max和最小值Min,如果均匀分布的话，则间隔为(MAX-MIN)/N-1,不均匀的话一定比这个间隔大，我们按这个间隔的大小为桶大小进行划分，不必比较桶内的元素，因为桶内元素间隔必定比这个间隔小，只需比较后一个桶的最小值与前一个桶的最大值即可。这个方法的空间复杂度为O(n)。C++语言：`typedef struct tagBucket<br>{<br> bool bValid;<br> int nMin;<br> int nMax;<br> tagBucket():bValid(false){}<br> void Add(int n)<br> {<pre><code><span class="keyword">if</span>(!bValid)
-{
-    <span class="variable">nMin =</span> <span class="variable">nMax =</span> n;
-    <span class="variable">bValid =</span> <span class="constant">true</span>;
-}
-<span class="keyword">else</span>
-{
-    <span class="keyword">if</span>(nMax&lt;n)<span class="variable">nMax =</span> n;
-    <span class="keyword">else</span> <span class="keyword">if</span>(nMin&gt;n)<span class="variable">nMin =</span> n;
-}
-</code></pre> }<br>}SBucket;<br>int GetMaxGap(const int<em> A,int size)<br>{<br> SBucket</em> pBucket = new SBucket[size];<br> int nMax = A[0];<br> int nMin = A[0];<br> int i = 0;<br> for(i=0;i&lt;size;i++)<br> {<pre><code><span class="keyword">if</span>(nMax&lt;<span class="literal">A</span>[i])nMax = <span class="literal">A</span>[i]<span class="comment">;</span>
-<span class="keyword">else</span> <span class="keyword">if</span>(nMin&gt;<span class="literal">A</span>[i])nMin = <span class="literal">A</span>[i]<span class="comment">;</span>
-</code></pre> }<br> int delta = nMax-nMin;<br> int nBucket;<br> for(i=0;i&lt;size;i++)<br> {<pre><code>nBucket = (<span class="keyword">A</span>[i]-nMin)*size/delta<span class="comment">;</span>
-if(nBucket&gt;=size)
-{
-    nBucket = size-1<span class="comment">;</span>
-}
-pBucket[nBucket].Add(<span class="keyword">A</span>[i])<span class="comment">;</span>
-</code></pre> }<br> i = 0;<br> int nGap = delta/size;<br> int gap;<br> for(int j=1;j&lt;size;j++)<br> {<pre><code><span class="keyword">if</span>(pBucket[j].bValid)
-{
-    <span class="variable">gap =</span> pBucket[j].nMin-pBucket[i].nMax;
-    <span class="keyword">if</span>(nGap&lt;gap)<span class="variable">nGap =</span> gap;
-    <span class="variable">i =</span> j;
-}
-</code></pre> }<br> return nGap;<br>}`</li>
-<li>Python内置的字典类型，在许多算法中能起到巧妙的作用。Python代码简洁，类型丰富，是作为程序原型和验证语言的很好的选择之一。</li>
-</ul>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/12/22/C++中Static的使用总结/" itemprop="url">
                   C++中Static的使用总结
                 </a>
@@ -429,6 +287,108 @@ pBucket[nBucket].Add(<span class="keyword">A</span>[i])<span class="comment">;</
 <p>综上：把局部变量改成静态变量改变了它的存储方式，及改变了它的生存期，把全局变量改为静态变量，改变了它的作用域，限制了它的使用范围。</p>
 <p>static全局变量与普通全局变量的区别：static全局变量只初始化一次，防止在其他文件单元中被引用<br>static局部变量与普通变量的区别：static全局变量只初始化一次，下一次依据上一次结果值。<br>static函数与普通函数的区别：static函数在内存中只有一份，普通函数在每个被调用中维持一份复制品<br>C++类的静态数据和方法成员</p>
 <p>类中的静态成员和方法不属于类的实例，而属于类本身并在所有类的实例间共享。调用这些时，应用类名：：来引用。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/22/数组分割/" itemprop="url">
+                  数组分割问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-22T21:59:54+08:00" content="2015-12-22">
+              2015-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/22/数组分割/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/22/数组分割/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>华为的面试题有这样一题</p>
+<blockquote>
+<p>题目：有两个数组a,b，大小都为n,数组元素的值任意，无序；<br>要求：通过交换a,b中的元素，使数组a元素的和与数组b元素的和之间的差最小。</p>
+</blockquote>
+<p>《编程之美》也有这一题，总结一下可行的几种方法。这一题和大小为2N的数组中选取大小相同的两个子数组，使两个数组之和的差值最小是相同的思路。<br>暴力破解需要穷举所有数字的N个组合，找出最接近sum()/2的。这种方法是N的阶乘的复杂度。<br>最完美的答案来自StackOverFlow 思路为</p>
+<blockquote>
+<p>assume we swap a[i] and b[j], set Delt = sum(a) - sum(b), x = a[i]-b[j]<br>then Delt2 = sum(a)-a[i]+b[j] - (sum(b)-b[j]+a[i]) = Delt - 2<em>x,<br>then the change = |Delt| - |Delt2|, which is proportional to |Delt|^2 - |Delt2|^2 = 4</em>x*(Delt-x),</p>
+</blockquote>
+<p>Based on the thought above I got the following code:</p>
+<blockquote>
+<p>Delt = sum(a) - sum(b);<br>done = false;<br>while(!done)<br>{<br>    done = true;<br>    for i = [0, n)<br>    {<br>        for j = [0,n)<br>        {<br>            x = a[i]-b[j];<br>            change = x<em>(Delt-x);<br>            if(change &gt;0)<br>            {<br>                 swap(a[i], b[j]);<br>                 Delt = Delt - 2</em>x;<br>                 done = false;<br>            }<br>        }<br>    }<br>}</p>
+</blockquote>
+<p>Python代码如下：</p>
+<p>  def swap_for_min(a, b):<br>  delta = sum(a) - sum(b)<br>  done = False<br>  while done == False:<br>    done = True<br>    for i in range(len(a)):<br>      for j in range(len(b)):<br>        x = a[i]-b[j]<br>        change = x<em>(delta-x)<br>        if change &gt; 0:<br>          t = a[i]<br>          a[i] = b[j]<br>          b[j] = t<br>          delta = delta-2</em>x<br>          done = False<br>  return a,b</p>
+<p>还有就是整体排序以后 用贪心算法依次比较SUM(),依照大小不同，添加到两个数组中，这种方法不能证明是全局最优的。<br>网上最常见的方法是DP算法，很多，这里就不举例，贴上地址<a href="http://blog.csdn.net/Hackbuteer1/article/details/7638305" target="_blank" rel="external">DP算法</a>。</p>
 
             
           </span>
